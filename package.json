@@ -1,0 +1,21 @@
+{
+  "name": "Inbox Email Client",
+  "version": "0.0.0",
+  "description": "An intuitive email client that interfaces with Inbox App.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nickclaw/inbox-app-client"
+  },
+  "bugs": {
+    "url": "https://github.com/nickclaw/inbox-app-client/issues"
+  },
+  "author": {
+    "name": "Nicholas Clawson",
+    "email": "nickclaw@gmail.com",
+    "url": "nickclaw.com"
+  },
+  "private": true,
+  "dependencies": {
+    
+  }
+}
