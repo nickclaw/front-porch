@@ -15,7 +15,22 @@
     "url": "nickclaw.com"
   },
   "private": true,
+
+  "main": "./src/index.html",
   "dependencies": {
-    
+
+  },
+
+  "single-instance": true,
+  "user-agent": "%name-%ver%-%osinfo",
+  "window": {
+      "title": "Inbox Email Client",
+      "toolbar": true,
+      "icon": "",
+      "frame": true,
+      "position": "center",
+      "resizable": true,
+      "width": 1180,
+      "height": 700
   }
 }

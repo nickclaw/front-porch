@@ -1,0 +1,16 @@
+{
+  "name": "inbox-email-client",
+  "version": "0.0.0",
+  "authors": [
+    "Nicholas Clawson <nickclaw@gmail.com>"
+  ],
+  "description": "An intuitive email client that interfaces with Inbox App.",
+  "main": "./src/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "lib"
+  ]
+}
