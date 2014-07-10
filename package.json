@@ -1,13 +1,13 @@
 {
-  "name": "Inbox Email Client",
+  "name": "front-porch",
   "version": "0.0.0",
   "description": "An intuitive email client that interfaces with Inbox App.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickclaw/inbox-app-client"
+    "url": "https://github.com/nickclaw/front-porch"
   },
   "bugs": {
-    "url": "https://github.com/nickclaw/inbox-app-client/issues"
+    "url": "https://github.com/nickclaw/front-porch/issues"
   },
   "author": {
     "name": "Nicholas Clawson",
@@ -15,22 +15,24 @@
     "url": "nickclaw.com"
   },
   "private": true,
-
   "main": "./src/index.html",
   "dependencies": {
-
+    "async": "~0.9.0",
+    "moment": "~2.7.0",
+    "mime": "~1.2.11",
+    "fs-extra": "~0.10.0",
+    "validator": "~3.16.0"
   },
-
   "single-instance": true,
   "user-agent": "%name-%ver%-%osinfo",
   "window": {
-      "title": "Inbox Email Client",
-      "toolbar": true,
-      "icon": "",
-      "frame": true,
-      "position": "center",
-      "resizable": true,
-      "width": 1180,
-      "height": 700
+    "title": "Front Porch",
+    "toolbar": true,
+    "icon": "",
+    "frame": true,
+    "position": "center",
+    "resizable": true,
+    "width": 1180,
+    "height": 700
   }
 }
