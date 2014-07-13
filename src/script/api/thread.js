@@ -14,4 +14,4 @@ _.extend(Thread.prototype, {
 
 });
 
-Module.exports = Thread;
+module.exports = Thread;

@@ -1,7 +1,7 @@
 var app = require('app'),
     BrowserWindow = require('browser-window');
 
-var mainWindow = null;
+var window = null;
 
 app.commandLine.appendSwitch('js-flags', '--harmony');
 app
@@ -9,13 +9,16 @@ app
         app.quit();
     })
     .on('ready', function() {
-        mainWindow = new BrowserWindow({
+        window = new BrowserWindow({
             width: 1000,
-            height: 700
+            height: 700,
+            center: true,
+            title: 'Front Porch',
+
         });
 
-        mainWindow.loadUrl('file://' + __dirname + '/build/index.html');
-        mainWindow.on('closed', function() {
-            mainWindow = null;
+        window.loadUrl('file://' + __dirname + '/build/index.html');
+        window.on('closed', function() {
+            window = null;
         });
     });

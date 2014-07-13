@@ -1,0 +1,23 @@
+<polymer-element name="test-element">
+    <template>
+        <app-globals id="globals"></app-globals>
+        <div>
+            <template repeat="{{ namespace in namespaces }}">
+                {{ namespace.id }}
+            </template>
+            <button id="refresh">refresh</button>
+        </div>
+    </template>
+    <script>
+        Polymer('test-element', {
+            ready: function() {
+                this.api = this.$.globals.api;
+                this.namespaces = [];
+                var self = this;
+                this.$.refresh.addEventListener('click', function() {
+                    self.namespaces = self.api.Namespace.getAll();
+                });
+            }
+        });
+    </script>
+</polymer-element>

@@ -19,12 +19,13 @@ _.extend(Namespace, {
      * @return {Promise}
      */
     getAll: function() {
-        return when.map(util.api({
+        var resources = [];
+        when.map(util.api({
             path: '/n/'
         }), function(namespace) {
-            console.log(namespace);
-            return new Namespace(namespace);
+            resources.push(new Namespace(namespace));
         });
+        return resources;
     },
 
     /**
