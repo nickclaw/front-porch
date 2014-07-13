@@ -13,3 +13,5 @@ _.extend(Thread, {
 _.extend(Thread.prototype, {
 
 });
+
+Module.exports = Thread;

@@ -2,25 +2,31 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         uglify: {
-            files: {
-                'build/script/script.js': ['src/script/**/*.js', 'src/script/**/*.json']
-            },
-
             dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: '**/*.js',
+                    dest: 'build/'
+                }],
                 options: {
                     compress: true,
                     report: 'min',
-                    sourceMap: true,
-                    wrap: true
+                    sourceMap: true
                 }
             },
             dev: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: '**/*.js',
+                    dest: 'build/'
+                }],
                 options: {
                     compress: false,
                     mangle: false,
                     beautify: true,
-                    report: 'min',
-                    wrap: true
+                    report: 'min'
                 }
             }
         },
@@ -29,9 +35,9 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'src/template/',
+                    cwd: 'src/',
                     src: '**/*.html',
-                    dest: 'build/template/'
+                    dest: 'build/'
                 }],
                 options: {
                     removeComments: true,
@@ -65,18 +71,6 @@ module.exports = function(grunt) {
                     dest: 'build/image/'
                 }]
             }
-        },
-
-        nodewebkit: {
-            options: {
-                build_dir: 'builds',
-                mac: true,
-                win: false,
-
-                version: "0.10.0-rc1",
-                zip: false
-            },
-            src: ['./**/*']
         },
 
         watch: {
@@ -114,7 +108,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
+    grunt.loadNpmTasks('grunt-atom-shell-app-builder');
 
-    grunt.registerTask('default', ['concurrent:do', 'nodewebkit']);
+    grunt.registerTask('default', ['concurrent:do']);
 };

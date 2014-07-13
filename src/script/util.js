@@ -18,7 +18,6 @@ var request = require('request'),
  */
 function api(options) {
     return when.promise(function(resolve, reject) {
-        console.log('trying?');
         request({
             url: {
                 protocol: 'http:', // todo get from config
