@@ -30,9 +30,10 @@ module.exports = function(grunt) {
                 options: {
                     compress: false,
                     mangle: false,
-                    beautify: true,
+                    beautify: false,
                     report: 'min',
-                    wrap: true
+                    wrap: true,
+                    sourceMap: true
                 },
                 files: {
                     'build/script/script.js': ['src/script/**/*.js', 'src/script/**/*.json']
