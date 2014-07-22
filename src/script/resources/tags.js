@@ -1,13 +1,13 @@
 angular.module('fp.resources')
-    .factory('Message', [
+    .factory('Tag', [
         '$resource',
         'endpoint',
         function($resource, endpoint) {
             return $resource(
-                endpoint + '/n/:namespace/messages/:message',
+                endpoint + '/n/:namespace/tags/:tag',
                 {
                     namespace: '@namespace',
-                    message: '@message'
+                    tag: '@tag'
                 },
                 {
 
