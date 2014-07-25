@@ -3,7 +3,7 @@ angular.module('fp.controllers', []); // will this be used?
 angular.module('fp.directives', []);
 angular.module('fp.filters', []);
 angular.module('fp.services', []);
-angular.module('fp.resourses', ['ngResource']);
+angular.module('fp.resources', ['ngResource']);
 angular.module('fp.routes', ['ui.router']);
 
 // create main namespace
@@ -27,8 +27,8 @@ angular.module('fp', [
 
     // called once everything is ready
     .run([
-
-        function() {
-
+        'Namespace',
+        function(Namespace) {
+            a = Namespace.query();
         }
     ])

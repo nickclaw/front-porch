@@ -49,9 +49,9 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'src/template',
+                    cwd: 'src',
                     src: '**/*.html',
-                    dest: 'build/template/'
+                    dest: 'build'
                 }]
             }
         },
@@ -70,7 +70,7 @@ module.exports = function(grunt) {
                 tasks: ["sass"]
             },
             html: {
-                files: ["src/template/**/*.html"],
+                files: ["src/**/*.html"],
                 tasks: ["htmlmin"]
             },
             imagemin: {
