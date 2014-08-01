@@ -2,13 +2,13 @@ angular.module('fp.resources')
     .factory('Tag', [
         '$resource',
         'endpoint',
-        function($resource, endpoint) {
+        'util',
+        function($resource, endpoint, util) {
 
             /**
+             * Tag
              * From https://www.inboxapp.com/docs/api#tags
-             * Tags are the primary way of storing metadata on a specific thread.
-             * They are generally used to group threads with some criteria, such
-             * as those unread or within a specific provider folder.
+             * @constructor
              */
             var Tag = $resource(
                 endpoint + '/n/:namespace/tags/:tag',
@@ -17,7 +17,12 @@ angular.module('fp.resources')
                     tag: '@id'
                 },
                 {
-
+                    query: {isArray: true},
+                    get: {},
+                    create: {
+                        method: 'PUT',
+                        transformRequest: util.stripHeaders
+                    }
                 }
             );
 

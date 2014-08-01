@@ -3,11 +3,20 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         sass: {
-            options: {
-                style: 'compressed',
-                precision: 4,
-            },
             dist: {
+                options: {
+                    style: 'compressed',
+                    precision: 4,
+                },
+                files: {
+                    'build/style/main.css': 'src/style/main.scss'
+                }
+            },
+            dev: {
+                options: {
+                    style: 'nested',
+                    precision: 4,
+                },
                 files: {
                     'build/style/main.css': 'src/style/main.scss'
                 }
@@ -67,7 +76,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ["src/style/**/*.scss"],
-                tasks: ["sass"]
+                tasks: ["sass:dev"]
             },
             html: {
                 files: ["src/**/*.html"],
@@ -81,7 +90,7 @@ module.exports = function(grunt) {
 
         concurrent: {
             dev: ['watch:js', 'watch:sass', 'watch:html', 'watch:imagemin'],
-            dist: ['sass', 'htmlmin', 'uglify:dist'],
+            dist: ['sass:dist', 'htmlmin', 'uglify:dist'],
             options: {
                 logConcurrentOutput: true,
                 limit: 5
@@ -96,6 +105,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-concurrent');
 
-    grunt.registerTask('default', ['sass', 'uglify:dev', 'htmlmin', 'concurrent:dev']);
+    grunt.registerTask('default', ['sass:dev', 'uglify:dev', 'htmlmin', 'concurrent:dev']);
     grunt.registerTask('build', ['concurrent:dist']);
 };

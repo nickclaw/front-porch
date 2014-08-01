@@ -1,17 +1,17 @@
 angular.module('fp.resources')
     .factory('Thread', [
         '$resource',
+        '$http',
         'endpoint',
+        'util',
         'Message',
         'Tag',
-        function($resource, endpoint, Message, Tag) {
+        function($resource, $http, endpoint, util, Message, Tag) {
 
             /**
+             * Thread
              * From https://www.inboxapp.com/docs/api#threads
-             * Threads are the main object in Inbox. They can be read, archived,
-             * and deleted. All messages are part of a thread, even if that
-             * thread has only one message. Operations like flagging and marking
-             * as read are only done at the thread level.
+             * @constructor
              */
             var Thread = $resource(
                 endpoint + '/n/:namespace/threads/:thread',
@@ -20,22 +20,49 @@ angular.module('fp.resources')
                     thread: '@id'
                 },
                 {
-                    save: {method: "PUT"}
+                    query: {isArray: true},
+                    get: {}
                 }
             );
 
+            // extend prototype
             _.extend(Thread.prototype, {
+
+                /**
+                 * Send a PUT request to the thread endpoint
+                 * @param {Object} data
+                 * @param {Function=} success
+                 * @param {Function=} error
+                 * @return {HttpPromise}
+                 */
+                $put: function(data, success, error) {
+                    var req = $http({
+                        method: 'PUT',
+                        url: endpoint + '/n/' + this.namespace + '/threads/' + this.id,
+                        transformRequest: util.stripHeaders,
+                        data: data
+                    });
+
+                    req.success(function(thread) {
+                        util.clearAndShallowCopy(this, thread);
+                    });
+
+                    success && req.success(success);
+                    error && req.error(error);
+
+                    return req;
+                },
 
                 /**
                  * Adds a tag
                  * @param {Tag}
                  * @param {Function=} success
                  * @param {Function=} error
-                 * @return {Thread}
+                 * @return {HttpPromise}
                  */
                 $addTag: function(tag, success, error) {
-                    return this.$save({}, {
-                        add_tags: [tag.id]
+                    return this.$put({
+                        'add_tags': [tag]
                     }, success, error);
                 },
 
@@ -44,12 +71,12 @@ angular.module('fp.resources')
                  * @param {Tag}
                  * @param {Function=} success
                  * @param {Function=} error
-                 * @return {Thread}
+                 * @return {HttpPromise}
                  */
                 $removeTag: function(tag, success, error) {
-                    return this.$save({}, {
-                        remove_tags: [tag.name]
-                    }, success, error)
+                    return this.$put({
+                        'remove_tags': [tag]
+                    }, success, error);
                 },
 
                 /**
@@ -57,47 +84,35 @@ angular.module('fp.resources')
                  * @param {Object=} filters
                  * @param {Function=} success
                  * @param {Function=} error
+                 * @return {Array.<Message>}
                  */
                 $getMessages: function(filters, success, error) {
-                    if (!_.isFunction(filters)) {
-                        error = success; success = filters; param = {};
+                    if (arguments.length < 3) {
+                        error = success; success = filters; filters = {};
                     }
+
+                    filters['thread_id'] = this.id;
+
                     return Message.query(_.defaults({
                         namespace: this.namespace,
                         thread: this.id
                     }, filters), success, error);
                 }
-            })
+
+                // TODO https://www.inboxapp.com/docs/api#updating-tags-performing-actions
+            });
 
             /**
-             * Adds helper functions for common flag based operations
-             * adds tag unless value starts with '!'
-             *
-             * https://www.inboxapp.com/docs/api#updating-tags-performing-actions
+             * Parent thread getter
+             * @param {Function=} success
+             * @param {Function=} error
+             * @return {Thread}
              */
-            _.each({
-                'delete': 'trash',
-                'archive': 'archive',
-                'unarchive': '!archive',
-                'read': '!unread',
-                'unread': 'unread',
-                'see': '!unseen',
-                'star': 'starred',
-                'unstar': '!starred'
-            }, function(tag, fnName) {
-                var remove = tag.charAt(0) === '!',
-                    toCall = remove ? '$removeTag' : '$addTag',
-                    tag = remove ? tag.slice(1) : tag;
-
-                /**
-                 * @param {?Function=} success
-                 * @param {?Function=} error
-                 * @return {Thread}
-                 */
-                Thread.prototype['$' + fnName] = function(success, error) {
-                    return this[toCall](new Tag({name: tag}), success, error);
-                }
-            })
+            Message.prototype.$getThread = function(success, error) {
+                return Thread.get({
+                    id: this.thread
+                }, {}, success, error);
+            };
 
             return Thread;
         }

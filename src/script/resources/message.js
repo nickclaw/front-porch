@@ -1,17 +1,15 @@
 angular.module('fp.resources')
     .factory('Message', [
         '$resource',
+        '$http',
         'endpoint',
-        function($resource, endpoint) {
+        'util',
+        function($resource, $http, endpoint, util) {
 
             /**
+             * Message
              * From https://www.inboxapp.com/docs/api#messages
-             * Messages are a sub-object of threads. The content of a message is
-             * immutable (with the exception being drafts). Inbox does not
-             * support operations such as move or delete on individual messages;
-             * those operations should be performed on the message’s thread. All
-             * messages are part of a thread, even if that thread has only one
-             * message.
+             * @constructor
              */
             var Message = $resource(
                 endpoint + '/n/:namespace/messages/:message',
@@ -20,9 +18,40 @@ angular.module('fp.resources')
                     message: '@id'
                 },
                 {
-
+                    query: {isArray: true},
+                    get: {}
                 }
             );
+
+            _.extend(Message.prototype, {
+
+                /**
+                 * Mark the message as read
+                 * @param {Boolean} read
+                 * @param {Function=} success
+                 * @param {Function=} error
+                 * @return {HttpPromise}
+                 */
+                $setRead: function(read, success, error) {
+                    var req = $http({
+                        method: 'PUT',
+                        url: endpoint + '/n/' + this.namespace + '/messages/' + this.id,
+                        transformRequest: util.stripHeaders,
+                        data: {
+                            unread: !read
+                        }
+                    });
+
+                    req.success(function(message) {
+                        util.clearAndShallowCopy(this, message);
+                    });
+
+                    success && req.success(success);
+                    error && req.error(error);
+
+                    return req;
+                }
+            });
 
             return Message;
         }
