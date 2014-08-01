@@ -23,6 +23,15 @@ module.exports = function(grunt) {
             }
         },
 
+        autoprefixer: {
+            dist: {
+                options: {
+                    cascade: false
+                },
+                src: 'build/style/main.css'
+            }
+        },
+
         uglify: {
             dist: {
                 options: {
@@ -76,7 +85,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ["src/style/**/*.scss"],
-                tasks: ["sass:dev"]
+                tasks: ["sass:dev", 'autoprefixer']
             },
             html: {
                 files: ["src/**/*.html"],
@@ -99,12 +108,13 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-concurrent');
 
-    grunt.registerTask('default', ['sass:dev', 'uglify:dev', 'htmlmin', 'concurrent:dev']);
-    grunt.registerTask('build', ['concurrent:dist']);
+    grunt.registerTask('default', ['sass:dev', 'autoprefixer', 'uglify:dev', 'htmlmin', 'concurrent:dev']);
+    grunt.registerTask('build', ['concurrent:dist', 'autoprefixer']);
 };
