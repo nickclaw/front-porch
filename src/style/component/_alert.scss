@@ -1,0 +1,57 @@
+#alerts {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 300px;
+
+    .alert {
+        position: relative;
+        padding: 10px;
+        margin: 5px;
+        left: 10px;
+        width: 250px;
+
+        cursor: pointer;
+        background-color: rgba(75,75,75, .8);
+        color: white;
+        border-radius: 1px;
+        box-shadow: 0px 1px 2px rgb(50,50,50);
+
+        &:hover:after {
+            content: "x";
+            display: block;
+            color: transparent;
+            text-shadow: 0px 0px 2px white;
+            position: absolute;
+            right: 3px;
+            top: 0px;
+            bottom: 0px;
+            line-height: 100%;
+        }
+    }
+
+    .animate-alert.ng-enter {
+      left: -300px;
+      margin-top: -50px;
+    }
+
+    .animate-alert.ng-enter {
+        animation: 1s alertEnter;
+    }
+
+    .animate-alert.ng-leave {
+      animation: 1s alertLeave;
+    }
+}
+
+@keyframes alertEnter {
+  0% { left: -300px; margin-top: -50px; }
+  70% { left: -300px; margin-top: 0px; }
+  100% { left: 10px; margin-top: 0px;}
+}
+
+@keyframes alertLeave {
+  0% { left: 10px; margin-top: 0px; }
+  30% { left: -300px; margin-top: 0px; }
+  100% { left: -300px; margin-top: -50px; }
+}

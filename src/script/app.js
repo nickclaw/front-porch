@@ -8,6 +8,7 @@ angular.module('fp.routes', ['ui.router']);
 
 // create main namespace
 angular.module('fp', [
+        'ngAnimate',
         'fp.controllers',
         'fp.directives',
         'fp.filters',

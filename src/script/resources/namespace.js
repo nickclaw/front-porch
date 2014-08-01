@@ -15,7 +15,7 @@ angular.module('fp.resources')
             Namespace = $resource(
                 endpoint + '/n/:id',
                 {
-                    namespace: '@id'
+                    id: '@id'
                 },
                 {
                     get: {},

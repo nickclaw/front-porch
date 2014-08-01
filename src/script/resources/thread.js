@@ -14,10 +14,10 @@ angular.module('fp.resources')
              * @constructor
              */
             var Thread = $resource(
-                endpoint + '/n/:namespace/threads/:thread',
+                endpoint + '/n/:namespace/threads/:id',
                 {
                     namespace: '@namespace',
-                    thread: '@id'
+                    id: '@id'
                 },
                 {
                     query: {isArray: true},
@@ -110,6 +110,7 @@ angular.module('fp.resources')
              */
             Message.prototype.$getThread = function(success, error) {
                 return Thread.get({
+                    namespace: this.namespace,
                     id: this.thread
                 }, {}, success, error);
             };
